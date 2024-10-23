@@ -115,6 +115,15 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             }
         },
 
+        endGame: function (winner) {
+            endGameModal.style.display = "block";
+            if (winner === "draw") {
+                document.querySelector(".subtitle").textContent = "It's a draw!";
+            } else {
+                document.querySelector(".subtitle").textContent = `${winner} wins this round!`;
+            }
+        },
+
         declareOverallWinner: function() {
             if (player1.score > player2.score) {
                 console.log(`${player1.name} is the overall winner!`);
@@ -136,6 +145,8 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         finalScore: function() {
             return `${player1.score}`;
         }
+
+
     };
 };
 
@@ -160,8 +171,6 @@ function ScreenController () {
         roundDiv.textContent = `Current Round: ${gameController.getRound()}`;
         scoreDiv.textContent = `Scores: ${gameController.getScores()}`;
         finalScore.textContent = `Your final score is: ${gameController.finalScore()}`;
-
-
 
 
         // Render the game board
@@ -191,21 +200,31 @@ function ScreenController () {
 
 ScreenController();
 
+// Game Start Modal
+
+
+
 // Game Over Modal
-const modal = document.getElementById("endGameModal");
-const addBookBtn = document.getElementById("addBookBtn");
-const closeModal = document.getElementsByClassName("close")[0];
+const welcomeModal = document.getElementById("welcomeModal");
+const endGameModal = document.getElementById("endGameModal");
+const gameContainer = document.getElementById("gameContainer");
 
-playAgain.onclick = function() {
-    modal.style.display = "block";
+// Show the welcome modal on page load
+window.onload = function() {
+    welcomeModal.style.display = "block";
 }
 
-closeModal.onclick = function() {
-    modal.style.display = "none";
+// Function to start the game
+function startGame() {
+    welcomeModal.style.display = "none"; // Hide the welcome modal
+    gameContainer.style.display = "block"; // Show the game board
 }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    };
-}
+// Function to play again (called when "Play Again" button is clicked)
+function playAgain() {
+    endGameModal.style.display = "none"; // Hide game over modal
+    gameContainer.style.display = "block"; // Show the game board
+    gameController.resetGame(); // Reset the game state
+    ScreenController();
+};
+
