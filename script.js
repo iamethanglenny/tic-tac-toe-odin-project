@@ -1,12 +1,20 @@
 const gameboardFactory = () => {
     return {
         board: ["", "", "", "", "", "", "", "", ""], // 3x3 grid for tic-tac-toe
+        
         displayBoard: function () {
             console.log(this.board);
         },
+
         setMove: function (index, symbol) {
             if (this.board[index] === "") {
                 this.board[index] = symbol;
+            }
+        },
+        
+        resetBoard: function () {
+            for (let i = 0; i < this.board.length; i++) {
+                board[i] = "";
             }
         }
     };
@@ -70,7 +78,7 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         },
 
         checkWinner: function(player, board) {
-            const symbol: player.symbol;
+            const symbol = player.symbol;
 
             const winningCombinations = [
                 [0, 1, 2],
