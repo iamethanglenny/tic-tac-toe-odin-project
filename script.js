@@ -49,7 +49,7 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         playMove: function (index) {
             gameboard.setMove(index, currentPlayer.symbol);
 
-            if (this.checkWinner(currentPlayer)) {
+            if (this.checkWinner(currentPlayer, gameboard.board)) {
                 this.setScore(currentPlayer);
                 this.endRound();
             } else if (this.isBoardFull(gameboard.board)) {
@@ -58,6 +58,15 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             } else {
             this.switchTurn();
             }
+        },
+
+        isBoardFull: function (board) {
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] === "") {
+                    return false;
+                }
+            }
+            return true;
         },
 
         checkWinner: function(player, board) {
