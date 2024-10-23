@@ -38,8 +38,8 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             currentPlayer = currentPlayer === player1 ? player2 : player1;
         },
 
-        displayCurrentPlayer: function () {
-            console.log(`It's ${currentPlayer.name}'s turn to move.`); // Put this on a heading or smth
+       displayCurrentPlayer: function () {
+            return `It's ${currentPlayer.name}'s turn to move.`; // Update the turn display
         },
 
         playMove: function (index) {
@@ -124,6 +124,14 @@ const gameControllerFactory = (player1, player2, gameboard) => {
                 console.log("The game ends in a draw!");
             }
         },
+
+        getRound: function() {
+            return roundsPlayed + 1; // Return current round (1-based index)
+        },
+
+        getScores: function() {
+            return `${player1.name}: ${player1.score} - ${player2.name}: ${player2.score}`;
+        },
     };
 };
 
@@ -134,6 +142,8 @@ function ScreenController () {
     const player2 = playerFactory("Player 2", "O");
     const gameController = gameControllerFactory(player1, player2, gameboard);
     const playerTurnDiv = document.querySelector('.turn');
+    const roundDiv = document.querySelector('.round');
+    const scoreDiv = document.querySelector('.score');
     const boardDiv = document.querySelector('.board');
 
     const updateScreen = () => {
@@ -142,6 +152,9 @@ function ScreenController () {
 
         // Update player's turn display
         playerTurnDiv.textContent = gameController.displayCurrentPlayer();
+        roundDiv.textContent = `Current Round: ${gameController.getRound()}`;
+        scoreDiv.textContent = `Scores: ${gameController.getScores()}`;
+
 
         // Render the game board
         gameboard.board.forEach((cell, index) => {
