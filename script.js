@@ -132,6 +132,10 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         getScores: function() {
             return `${player1.name}: ${player1.score} - ${player2.name}: ${player2.score}`;
         },
+
+        finalScore: function() {
+            return `${player1.score}`;
+        }
     };
 };
 
@@ -145,6 +149,7 @@ function ScreenController () {
     const roundDiv = document.querySelector('.round');
     const scoreDiv = document.querySelector('.score');
     const boardDiv = document.querySelector('.board');
+    const finalScore = document.querySelector('.subtitle');
 
     const updateScreen = () => {
         // Clear the board display
@@ -154,6 +159,7 @@ function ScreenController () {
         playerTurnDiv.textContent = gameController.displayCurrentPlayer();
         roundDiv.textContent = `Current Round: ${gameController.getRound()}`;
         scoreDiv.textContent = `Scores: ${gameController.getScores()}`;
+        finalScore.textContent = `Your final score is: ${gameController.finalScore()}`;
 
 
         // Render the game board
@@ -176,3 +182,22 @@ function ScreenController () {
 }
 
 ScreenController();
+
+// Game Over Modal
+const modal = document.getElementById("endGameModal");
+const addBookBtn = document.getElementById("addBookBtn");
+const closeModal = document.getElementsByClassName("close")[0];
+
+playAgain.onclick = function() {
+    modal.style.display = "block";
+}
+
+closeModal.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    };
+}

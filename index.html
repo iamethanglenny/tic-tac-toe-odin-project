@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="endGameModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="center">
+                <h2>Game Over</h2>
+                <p class="subtitle"></p>
+                <button onclick="playAgain()" class="replay">Play Again</button>
+            </div>
+        </div>
+    </div>
     <div class="status">
         <h1 class="turn"></h1>
         <p class="round"></p>
