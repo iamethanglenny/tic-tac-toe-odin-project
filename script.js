@@ -11,20 +11,14 @@ const gameboardFactory = () => {
                 this.board[index] = symbol;
             }
         },
-        
+
         resetBoard: function () {
             for (let i = 0; i < this.board.length; i++) {
-                board[i] = "";
+                this.board[i] = "";
             }
         }
     };
 };
-
-// console log to check above code.
-    const gameboard = gameboardFactory();
-    gameboard.setMove(0, "X");
-    gameboard.setMove(1, "O");
-    gameboard.displayBoard();
 
 const playerFactory = (name, symbol) => {
     let score = 0;
@@ -34,12 +28,6 @@ const playerFactory = (name, symbol) => {
         score: score,
     };
 };
-
-// console log to check above code.
-    const player1 = playerFactory("Player 1", "X");
-    const player2 = playerFactory("Player 2", "O");
-    console.log(player1);
-    console.log(player2);
 
 const gameControllerFactory = (player1, player2, gameboard) => {
     let currentPlayer = player1;
@@ -51,7 +39,7 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         },
 
         displayCurrentPlayer: function () {
-            console.log(`It's ${currentPlayer.name}'s turn to move.`);
+            console.log(`It's ${currentPlayer.name}'s turn to move.`); // Put this on a heading or smth
         },
 
         playMove: function (index) {
@@ -77,8 +65,8 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             return true;
         },
 
-        checkWinner: function(player, board) {
-            const symbol = player.symbol;
+        checkWinner: function(currentPlayer, board) {
+            const symbol = currentPlayer.symbol;
 
             const winningCombinations = [
                 [0, 1, 2],
@@ -139,10 +127,39 @@ const gameControllerFactory = (player1, player2, gameboard) => {
     };
 };
 
-// console log to check above code.
+function ScreenController () {
+    // UI Interaction
+    const gameboard = gameboardFactory();
+    const player1 = playerFactory("Player 1", "X");
+    const player2 = playerFactory("Player 2", "O");
     const gameController = gameControllerFactory(player1, player2, gameboard);
-    gameController.displayCurrentPlayer();
-    gameController.playMove(0);
-    gameController.displayCurrentPlayer();
-    gameController.playMove(0);
-    gameController.displayCurrentPlayer();
+    const playerTurnDiv = document.querySelector('.turn');
+    const boardDiv = document.querySelector('.board');
+
+    const updateScreen = () => {
+        // Clear the board display
+        boardDiv.innerHTML = "";
+
+        // Update player's turn display
+        playerTurnDiv.textContent = gameController.displayCurrentPlayer();
+
+        // Render the game board
+        gameboard.board.forEach((cell, index) => {
+            const cellButton = document.createElement("button");
+            cellButton.classList.add("cell");
+            cellButton.textContent = cell;
+            cellButton.dataset.index = index; // Set data attribute to identify the cell
+
+            cellButton.addEventListener("click", () => {
+                gameController.playMove(index);
+                updateScreen();
+            });
+
+            boardDiv.appendChild(cellButton);
+        });
+    };
+
+    updateScreen(); // Initial render
+}
+
+ScreenController();
