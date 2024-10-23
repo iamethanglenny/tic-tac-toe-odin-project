@@ -162,12 +162,20 @@ function ScreenController () {
         finalScore.textContent = `Your final score is: ${gameController.finalScore()}`;
 
 
+
+
         // Render the game board
         gameboard.board.forEach((cell, index) => {
             const cellButton = document.createElement("button");
             cellButton.classList.add("cell");
             cellButton.textContent = cell;
             cellButton.dataset.index = index; // Set data attribute to identify the cell
+
+            if (cell === "X") {
+                cellButton.classList.add("x");
+            } else if (cell === "O") {
+                cellButton.classList.add("o");
+            }
 
             cellButton.addEventListener("click", () => {
                 gameController.playMove(index);
