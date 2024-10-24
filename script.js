@@ -43,6 +43,7 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         },
 
         playMove: function (index) {
+            if (gameboard.board[index] === "") {
             gameboard.setMove(index, currentPlayer.symbol);
 
             if (this.checkWinner(currentPlayer, gameboard.board)) {
@@ -54,6 +55,9 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             } else {
             this.switchTurn();
             }
+        } else {
+            console.log("Cell is already filled!"); // Optional: Inform user that the cell is filled
+        }
         },
 
         isBoardFull: function (board) {
@@ -112,6 +116,13 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             } else {
                 console.log(`Game Over! 5 rounds have been played!`);
                 this.declareOverallWinner();
+
+                const endGameModal = document.getElementById("endGameModal");
+                endGameModal.style.display = "block";
+                
+                // Hide the game board
+                const board = document.getElementsByClassName("board");
+                board.style.display = "none";
             }
         },
 
@@ -139,7 +150,7 @@ const gameControllerFactory = (player1, player2, gameboard) => {
         },
 
         getScores: function() {
-            return `${player1.name}: ${player1.score} - ${player2.name}: ${player2.score}`;
+            return `${player1.name}: ${player1.score}  - ${player2.name}: ${player2.score}`;
         },
 
         finalScore: function() {
@@ -205,26 +216,45 @@ ScreenController();
 
 
 // Game Over Modal
-const welcomeModal = document.getElementById("welcomeModal");
-const endGameModal = document.getElementById("endGameModal");
-const gameContainer = document.getElementById("gameContainer");
+document.addEventListener("DOMContentLoaded", function() {
+    const welcomeModal = document.getElementById("welcomeModal");
+    const endGameModal = document.getElementById("endGameModal");
+    const gameContainer = document.getElementById("gameContainer");
+    const closeModal = document.getElementById("close");
+    const modal = document.getElementsByClassName("modal");
 
-// Show the welcome modal on page load
-window.onload = function() {
+    // Show the welcome modal on page load
     welcomeModal.style.display = "block";
-}
 
-// Function to start the game
-function startGame() {
-    welcomeModal.style.display = "none"; // Hide the welcome modal
-    gameContainer.style.display = "block"; // Show the game board
-}
+    // Function to start the game
+    function startGame() {
+        welcomeModal.style.display = "none"; // Hide the welcome modal
+        gameContainer.style.display = "block"; // Show the game board
+    }
 
-// Function to play again (called when "Play Again" button is clicked)
-function playAgain() {
-    endGameModal.style.display = "none"; // Hide game over modal
-    gameContainer.style.display = "block"; // Show the game board
-    gameController.resetGame(); // Reset the game state
-    ScreenController();
-};
+    // Attach the startGame function to the button
+    document.querySelector(".start").addEventListener("click", startGame);
 
+
+
+    // Function to play again (called when "Play Again" button is clicked)
+    function playAgain() {
+        endGameModal.style.display = "none"; // Hide game over modal
+        gameContainer.style.display = "block"; // Show the game board
+        gameController.resetGame(); // Reset the game state
+        ScreenController();
+    }
+
+    // Attach playAgain to the Play Again button
+    document.querySelector(".replay").addEventListener("click", playAgain);
+
+    closeModal.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
