@@ -149,12 +149,16 @@ const gameControllerFactory = (player1, player2, gameboard) => {
             return roundsPlayed + 1; // Return current round (1-based index)
         },
 
-        getScores: function() {
-            return `${player1.name}: ${player1.score}  - ${player2.name}: ${player2.score}`;
+        getScores1: function() {
+            return `${player1.name}: ${player1.score}`;
+        },
+
+        getScores2: function() {
+            return `${player2.name}: ${player2.score}`;
         },
 
         finalScore: function() {
-            return `${player1.score}`;
+            return `${player1.score + 1}`;
         }
 
 
@@ -169,7 +173,8 @@ function ScreenController () {
     const gameController = gameControllerFactory(player1, player2, gameboard);
     const playerTurnDiv = document.querySelector('.turn');
     const roundDiv = document.querySelector('.round');
-    const scoreDiv = document.querySelector('.score');
+    const score1 = document.querySelector('.score1');
+    const score2 = document.querySelector('.score2');
     const boardDiv = document.querySelector('.board');
     const finalScore = document.querySelector('.subtitle');
 
@@ -180,7 +185,8 @@ function ScreenController () {
         // Update player's turn display
         playerTurnDiv.textContent = gameController.displayCurrentPlayer();
         roundDiv.textContent = `Current Round: ${gameController.getRound()}`;
-        scoreDiv.textContent = `Scores: ${gameController.getScores()}`;
+        score1.textContent = `${gameController.getScores1()}`;
+        score2.textContent = `${gameController.getScores2()}`;
         finalScore.textContent = `Your final score is: ${gameController.finalScore()}`;
 
 

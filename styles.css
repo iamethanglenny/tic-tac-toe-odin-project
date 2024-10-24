@@ -7,10 +7,16 @@ body, html {
     align-items: center;
 }
 
+body {
+    background-image: url("zen.jpg");
+    background-size: cover;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(3, 200px);
     grid-gap: 5px;
+    margin-top:20px;
 }
 .cell {
     width: 200px;
@@ -41,6 +47,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
 }
 
 .modal {
@@ -94,13 +101,13 @@ h2 {
     margin-top: 10px;
 }
 
-.replay {
+.replay, .start {
     background-color: #01b22d;
     border-radius: 5px;
     border: 1px solid black;
     padding: 10px 15px;
     font-weight: bold;
-    color: rgb(0, 0, 0);
+    color: white;
     margin-top: 10px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -124,3 +131,20 @@ h2 {
         text-decoration: none;
         cursor: pointer;
 }
+
+.round {
+    margin: 0px;
+    font-weight: bold;
+    color: white;
+}
+
+.score1, .score2 {
+    color: white;
+    margin: 0px;
+    padding: 5px;
+}
+
+.board {
+    display: show;
+}
+
